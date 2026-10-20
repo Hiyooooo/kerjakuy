@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+@config "../../tailwind.config.ts";
+
+:root {
+  --color-coral: #FB7185;
+  --color-amber: #F59E0B;
+  --color-ink: #2B2423;       /* 14.48:1 pada paper; 15.22:1 pada white */
+  --color-muted: #655B58;     /* 6.26:1 pada paper; 6.58:1 pada white */
+  --color-coral-ink: #BE123C; /* 5.98:1 pada paper; 6.29:1 pada white */
+  --color-amber-ink: #874400; /* 6.99:1 pada paper; 7.35:1 pada white */
+  --color-paper: #FFF8F3;
+  --color-white: #FFFFFF;
+  --color-line: #E9D9D2;
+  --color-control: #8C5B52;   /* 5.35:1 pada paper */
+  --color-success: #26734D;  /* 5.48:1 pada paper */
+  --color-danger: #B42318;   /* 6.25:1 pada paper */
+
+  --radius-control: 10px;
+  --radius-chip: 14px;
+  --radius-card: 22px;
+  --radius-bubble: 32px;
+}
+
+@theme {
+  --color-coral: #FB7185;
+  --color-amber: #F59E0B;
+  --color-ink: #2B2423;
+  --color-muted: #655B58;
+  --color-coral-ink: #BE123C;
+  --color-amber-ink: #874400;
+  --color-paper: #FFF8F3;
+  --color-white: #FFFFFF;
+  --color-line: #E9D9D2;
+  --color-control: #8C5B52;
+  --color-success: #26734D;
+  --color-danger: #B42318;
+
+  --radius-control: 10px;
+  --radius-chip: 14px;
+  --radius-card: 22px;
+  --radius-bubble: 32px;
+
+  --font-display: var(--font-manrope), system-ui, sans-serif;
+  --font-sans: var(--font-nunito-sans), system-ui, sans-serif;
+}
+
+/* Base Accessibility & Focus */
+html {
+  scroll-behavior: smooth;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-control);
+  outline-offset: 2px;
+}
+
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Custom Component Utilities */
+.bubble-tail-bottom {
+  position: relative;
+}
+
+.bubble-tail-bottom::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 28px;
+  width: 16px;
+  height: 16px;
+  background-color: inherit;
+  transform: rotate(45deg);
+  border-bottom-right-radius: 4px;
+}
