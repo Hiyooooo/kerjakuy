@@ -27,9 +27,22 @@ export const viewport: Viewport = {
 
 export async function generateMetadata(): Promise<Metadata> {
   const config = await getSiteConfig();
-  const siteDomain = config.site.domain.startsWith("http")
-    ? config.site.domain
-    : `https://${config.site.domain}`;
+  const rawDomain = config.site.domain;
+  const isPlaceholderDomain =
+    !rawDomain || rawDomain.includes(".example") || rawDomain.includes("localhost");
+
+  let siteDomain: string;
+  if (!isPlaceholderDomain) {
+    siteDomain = rawDomain.startsWith("http") ? rawDomain : `https://${rawDomain}`;
+  } else if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+    siteDomain = `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+  } else if (process.env.VERCEL_URL) {
+    siteDomain = `https://${process.env.VERCEL_URL}`;
+  } else {
+    siteDomain = "https://kerjakuy.example";
+  }
+
+  const ogImageUrl = config.seo.og_image_url || "/opengraph-image";
 
   return {
     title: config.seo.meta_title,
@@ -48,7 +61,7 @@ export async function generateMetadata(): Promise<Metadata> {
       type: "website",
       images: [
         {
-          url: config.seo.og_image_url || "/opengraph-image",
+          url: ogImageUrl,
           width: 1200,
           height: 630,
           alt: config.seo.meta_title,
@@ -59,7 +72,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: "summary_large_image",
       title: config.seo.meta_title,
       description: config.seo.meta_description,
-      images: [config.seo.og_image_url || "/opengraph-image"],
+      images: [ogImageUrl],
     },
     robots: {
       index: true,
